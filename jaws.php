@@ -1,10 +1,8 @@
 <?php
-/**
+/*
  * Jaws import plugin
  * by Omar Bazavilvazo - http://OmarBazavilvazo.com/
- * Version 0.2, updated on September 11, 2007
- * Tested with Jaws 0.7.2 & Wordpress 2.2.3
- **/
+ */
 
 /**
 	Add These Functions to make our lives easier
@@ -59,7 +57,7 @@ class Jaws_Import {
 
 	function greet() {
 		echo '<div class="narrow">';
-		echo '<p>'.__('Howdy! This imports categories, users, posts, comments, and links from any Jaws 0.7.1+ into this blog.').'</p>';
+		echo '<p>'.__('Howdy! This imports categories, users, posts, comments, and links from any Jaws 0.6.1+ into this blog.').'</p>';
 		echo '<p>'.__('This has not been tested on previous versions of Jaws.  Mileage may vary.').'</p>';
 		echo '<p>'.__('Your Jaws Configuration settings are as follows:').'</p>';
 		echo '<form action="admin.php?import=jaws&amp;step=1" method="post">';
@@ -170,7 +168,7 @@ class Jaws_Import {
 
 				// Make Nice Variables
 				$name = $wpdb->escape($name);
-				$title = $wpdb->escape($name);
+				$title = utf8_decode($wpdb->escape($name));
 
 				if($cinfo = category_exists($name))
 				{
@@ -210,7 +208,7 @@ class Jaws_Import {
 
 				// Make Nice Variables
 				$username = $wpdb->escape($username);
-				$name = $wpdb->escape($name);
+				$name = utf8_decode($wpdb->escape($name));
 
 				if($uinfo = get_userdatabylogin($username))
 				{
@@ -290,11 +288,24 @@ class Jaws_Import {
 				$uinfo = ( get_userdatabylogin( $user_id ) ) ? get_userdatabylogin( $user_id ) : 1;
 				$authorid = ( is_object( $uinfo ) ) ? $uinfo->ID : $uinfo ;
 
-				$Title = $wpdb->escape($title);
-				$Body = $wpdb->escape($text);
+				$Title = utf8_decode($wpdb->escape($title));
+				$Body = utf8_decode($wpdb->escape($text));
 				//$Excerpt = $wpdb->escape($Excerpt);
 				$Excerpt = "";	//TODO: calculate it somehow
 				$post_status = $stattrans[$published];
+
+			/*
+				$Body = str_replace('[url="','<a href="',$Body);
+				$Body = str_replace('"]','">',$Body);
+				$Body = str_replace('[/url]','</a>',$Body);
+			*/	
+				$Body = str_replace('[terminal]','<blockquote>',$Body);
+				$Body = str_replace('[/terminal]','</blockquote>',$Body);
+
+
+
+				//http://oviedo.mx/wp-content/uploads/2010/08
+
 
 				// Import Post data into WordPress
 
@@ -373,16 +384,16 @@ class Jaws_Import {
 			{
 				$count++;
 				extract($comment);
-				
+
 				// WordPressify Data
 				$comment_ID = ltrim($id, '0');
 				$comment_post_ID = $postarr[$gadget_reference];
 				//$comment_approved = ('approved' == $status) ? 1 : 0;
 				$comment_approved = 1;	//TODO: check
-				$name = $wpdb->escape($name);
+				$name = utf8_decode($wpdb->escape($name));
 				$email = $wpdb->escape($email);
 				$web = $wpdb->escape($url);
-				$message = $wpdb->escape($message);
+				$message = utf8_decode($wpdb->escape($message));
 
 				if($cinfo = comment_exists($name, $createtime))
 				{
@@ -393,7 +404,7 @@ class Jaws_Import {
 						'comment_author'		=> $name,
 						'comment_author_email'	=> $email,
 						'comment_author_url'	=> $web,
-						'comment_date'			=> $createtime,
+						'comment_date'			=> $posted,
 						'comment_content'		=> $message,
 						'comment_approved'		=> $comment_approved,
 						'comment_parent'		=> $postarr[$parent])
@@ -408,7 +419,7 @@ class Jaws_Import {
 						'comment_author_email'	=> $email,
 						'comment_author_url'	=> $web,
 						'comment_author_IP'		=> $ip,
-						'comment_date'			=> $createtime,
+						'comment_date'			=> $posted,
 						'comment_content'		=> $message,
 						'comment_approved'		=> $comment_approved,
 						'comment_parent'		=> $postarr[$parent])
@@ -447,7 +458,7 @@ class Jaws_Import {
 
 				// Make nice vars
 				$category = $wpdb->escape("Blogroll");
-				$linkname = $wpdb->escape($friend);
+				$linkname = utf8_decode($wpdb->escape($friend));
 				$description = "";
 
 				if($linfo = link_exists($linkname))
