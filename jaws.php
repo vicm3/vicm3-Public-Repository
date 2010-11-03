@@ -2,8 +2,9 @@
 /**
  * Jaws import plugin
  * by Omar Bazavilvazo - http://OmarBazavilvazo.com/
- * Version 0.2, updated on September 11, 2007
- * Tested with Jaws 0.7.2 & Wordpress 2.2.3
+ * Version 0.4, updated on November 02, 2010
+ * Tested with Jaws 0.8.14 & Wordpress 3.0.1 updated by vicm3 - http://blografia.net/vicm3
+ * with bits from Oviedo http://oviedo.mx/wp-content/uploads/2010/08/jaws.txt
  **/
 
 /**
@@ -296,8 +297,8 @@ class Jaws_Import {
 				$Excerpt = "";	//TODO: calculate it somehow
 				$post_status = $stattrans[$published];
 
-				$Body = str_replace('[terminal]','<blockquote>',$Body);
-				$Body = str_replace('[/terminal]','</blockquote>',$Body);
+				//$Body = str_replace('[terminal]','<blockquote>',$Body);
+				//$Body = str_replace('[/terminal]','</blockquote>',$Body);
 
 				// Import Post data into WordPress
 
@@ -312,7 +313,7 @@ class Jaws_Import {
 						'post_modified_gmt' => $updatetime,
 						'post_title'		=> $Body,
 						'post_content'		=> $text,
-						'post_excerpt'		=> $Excerpt,
+						'post_excerpt'		=> $summary,
 						'post_status'		=> $post_status,
 						'post_name'			=> $fast_url,
 						'comment_count'		=> $comments)
@@ -328,7 +329,7 @@ class Jaws_Import {
 						'post_modified_gmt' => $updatetime,
 						'post_title'		=> $Title,
 						'post_content'		=> $Body,
-						'post_excerpt'		=> $Excerpt,
+						'post_excerpt'		=> $summary,
 						'post_status'		=> $post_status,
 						'post_name'			=> $fast_url,
 						'comment_count'		=> $comments)
@@ -397,7 +398,7 @@ class Jaws_Import {
 						'comment_author_email'	=> $email,
 						'comment_author_url'	=> $web,
 						'comment_date'			=> $createtime,
-						'comment_content'		=> $message,
+						'comment_content'		=> $msg_txt,
 						'comment_approved'		=> $comment_approved,
 						'comment_parent'		=> $postarr[$parent])
 						);
@@ -412,7 +413,7 @@ class Jaws_Import {
 						'comment_author_url'	=> $web,
 						'comment_author_IP'		=> $ip,
 						'comment_date'			=> $createtime,
-						'comment_content'		=> $message,
+						'comment_content'		=> $msg_txt,
 						'comment_approved'		=> $comment_approved,
 						'comment_parent'		=> $postarr[$parent])
 						);
