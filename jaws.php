@@ -1,8 +1,10 @@
 <?php
-/*
+/**
  * Jaws import plugin
  * by Omar Bazavilvazo - http://OmarBazavilvazo.com/
- */
+ * Version 0.2, updated on September 11, 2007
+ * Tested with Jaws 0.7.2 & Wordpress 2.2.3
+ **/
 
 /**
 	Add These Functions to make our lives easier
@@ -57,7 +59,7 @@ class Jaws_Import {
 
 	function greet() {
 		echo '<div class="narrow">';
-		echo '<p>'.__('Howdy! This imports categories, users, posts, comments, and links from any Jaws 0.6.1+ into this blog.').'</p>';
+		echo '<p>'.__('Howdy! This imports categories, users, posts, comments, and links from any Jaws 0.7.1+ into this blog.').'</p>';
 		echo '<p>'.__('This has not been tested on previous versions of Jaws.  Mileage may vary.').'</p>';
 		echo '<p>'.__('Your Jaws Configuration settings are as follows:').'</p>';
 		echo '<form action="admin.php?import=jaws&amp;step=1" method="post">';
@@ -94,10 +96,10 @@ class Jaws_Import {
 		// Get Users
 
 		return $jawsdb->get_results('SELECT
-			id as user_id,
+			id, 
 			username,
 			passwd,
-			name,
+			dname,
 			email,
 			createtime
 			FROM '.$prefix.'users WHERE username != "admin"', ARRAY_A);
@@ -208,7 +210,7 @@ class Jaws_Import {
 
 				// Make Nice Variables
 				$username = $wpdb->escape($username);
-				$name = utf8_decode($wpdb->escape($name));
+			 	$name = utf8_decode($wpdb->escape($name));	
 
 				if($uinfo = get_userdatabylogin($username))
 				{
@@ -294,18 +296,8 @@ class Jaws_Import {
 				$Excerpt = "";	//TODO: calculate it somehow
 				$post_status = $stattrans[$published];
 
-			/*
-				$Body = str_replace('[url="','<a href="',$Body);
-				$Body = str_replace('"]','">',$Body);
-				$Body = str_replace('[/url]','</a>',$Body);
-			*/	
 				$Body = str_replace('[terminal]','<blockquote>',$Body);
 				$Body = str_replace('[/terminal]','</blockquote>',$Body);
-
-
-
-				//http://oviedo.mx/wp-content/uploads/2010/08
-
 
 				// Import Post data into WordPress
 
@@ -318,8 +310,8 @@ class Jaws_Import {
 						'post_author'		=> $jawsid2wpid[$user_id],
 						'post_modified'		=> $updatetime,
 						'post_modified_gmt' => $updatetime,
-						'post_title'		=> $Title,
-						'post_content'		=> $Body,
+						'post_title'		=> $Body,
+						'post_content'		=> $text,
 						'post_excerpt'		=> $Excerpt,
 						'post_status'		=> $post_status,
 						'post_name'			=> $fast_url,
@@ -384,7 +376,7 @@ class Jaws_Import {
 			{
 				$count++;
 				extract($comment);
-
+				
 				// WordPressify Data
 				$comment_ID = ltrim($id, '0');
 				$comment_post_ID = $postarr[$gadget_reference];
@@ -404,7 +396,7 @@ class Jaws_Import {
 						'comment_author'		=> $name,
 						'comment_author_email'	=> $email,
 						'comment_author_url'	=> $web,
-						'comment_date'			=> $posted,
+						'comment_date'			=> $createtime,
 						'comment_content'		=> $message,
 						'comment_approved'		=> $comment_approved,
 						'comment_parent'		=> $postarr[$parent])
@@ -419,7 +411,7 @@ class Jaws_Import {
 						'comment_author_email'	=> $email,
 						'comment_author_url'	=> $web,
 						'comment_author_IP'		=> $ip,
-						'comment_date'			=> $posted,
+						'comment_date'			=> $createtime,
 						'comment_content'		=> $message,
 						'comment_approved'		=> $comment_approved,
 						'comment_parent'		=> $postarr[$parent])
