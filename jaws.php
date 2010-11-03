@@ -1,8 +1,10 @@
 <?php
-/*
+/**
  * Jaws import plugin
  * by Omar Bazavilvazo - http://OmarBazavilvazo.com/
- */
+ * Version 0.2, updated on September 11, 2007
+ * Tested with Jaws 0.7.2 & Wordpress 2.2.3
+ **/
 
 /**
 	Add These Functions to make our lives easier
@@ -57,7 +59,7 @@ class Jaws_Import {
 
 	function greet() {
 		echo '<div class="narrow">';
-		echo '<p>'.__('Howdy! This imports categories, users, posts, comments, and links from any Jaws 0.6.1+ into this blog.').'</p>';
+		echo '<p>'.__('Howdy! This imports categories, users, posts, comments, and links from any Jaws 0.7.1+ into this blog.').'</p>';
 		echo '<p>'.__('This has not been tested on previous versions of Jaws.  Mileage may vary.').'</p>';
 		echo '<p>'.__('Your Jaws Configuration settings are as follows:').'</p>';
 		echo '<form action="admin.php?import=jaws&amp;step=1" method="post">';
@@ -371,7 +373,7 @@ class Jaws_Import {
 			{
 				$count++;
 				extract($comment);
-
+				
 				// WordPressify Data
 				$comment_ID = ltrim($id, '0');
 				$comment_post_ID = $postarr[$gadget_reference];
@@ -391,7 +393,7 @@ class Jaws_Import {
 						'comment_author'		=> $name,
 						'comment_author_email'	=> $email,
 						'comment_author_url'	=> $web,
-						'comment_date'			=> $posted,
+						'comment_date'			=> $createtime,
 						'comment_content'		=> $message,
 						'comment_approved'		=> $comment_approved,
 						'comment_parent'		=> $postarr[$parent])
@@ -406,7 +408,7 @@ class Jaws_Import {
 						'comment_author_email'	=> $email,
 						'comment_author_url'	=> $web,
 						'comment_author_IP'		=> $ip,
-						'comment_date'			=> $posted,
+						'comment_date'			=> $createtime,
 						'comment_content'		=> $message,
 						'comment_approved'		=> $comment_approved,
 						'comment_parent'		=> $postarr[$parent])
