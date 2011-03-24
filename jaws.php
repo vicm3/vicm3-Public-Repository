@@ -299,7 +299,7 @@ class Jaws_Import {
 
 				$Body = str_replace('[terminal]','<pre>',$Body);
 				$Body = str_replace('[/terminal]','</pre>',$Body);
-				$Body = isset($summary)?$summary:"" + $Body;
+				$Body = isset($summary)?$summary:"" + $body;
 
 				// Import Post data into WordPress
 
