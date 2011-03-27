@@ -1,0 +1,8 @@
+Jaws to WP converter
+You need to upload jaws.php to your wordpress install, go to wp-admin/import/ (maybe import directory don't exist on your install if that's the case create it) then log to your WP, go to tools and import. You will see import from Jaws.
+
+Version 0.5.1 march 26 2011
+Attempt to fix problem with summary + body.
+
+Version 0.5 march 23 2011
+We got correctly the post titles and summary from the 0.8.x branch, but when summary is null, as in the post prev to 0.8.x we lost the content of body. 
