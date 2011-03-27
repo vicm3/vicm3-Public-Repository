@@ -2,9 +2,9 @@
 /**
  * Jaws import plugin
  * by Omar Bazavilvazo - http://OmarBazavilvazo.com/
- * Version 0.5, updated on March 23, 2011
+ * Version 0.5.1, updated on March 23, 2011
  * Tested with Jaws 0.8.14 & Wordpress 3.1 updated by vicm3 - http://blografia.net/vicm3 
- * Fixed now imports the summary and ads to body. Now maybe will break with jaws > 0.5 Thanks to Obazavil
+ * Still broken the summary goes to excerpt, need a major rewrite :/
  * with bits from Oviedo http://oviedo.mx/wp-content/uploads/2010/08/jaws.txt
  **/
 
@@ -299,7 +299,7 @@ class Jaws_Import {
 
 				$Body = str_replace('[terminal]','<pre>',$Body);
 				$Body = str_replace('[/terminal]','</pre>',$Body);
-				$Body = isset($summary)?$summary:"" + $body;
+				$NewBody = isset($summary)?$summary:"" + $Body;
 
 				// Import Post data into WordPress
 
@@ -330,7 +330,7 @@ class Jaws_Import {
 						'post_modified'		=> $updatetime,
 						'post_modified_gmt' => $updatetime,
 						'post_title'		=> $Title,
-						'post_content'		=> $Body,
+						'post_content'		=> $NewBody,
 						'post_excerpt'		=> $summary,
 						'post_status'		=> $post_status,
 						'post_name'			=> $fast_url,
