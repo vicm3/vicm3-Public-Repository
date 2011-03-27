@@ -299,7 +299,7 @@ class Jaws_Import {
 
 				$Body = str_replace('[terminal]','<pre>',$Body);
 				$Body = str_replace('[/terminal]','</pre>',$Body);
-				$NewBody = isset($summary)?$summary:"" + $Body;
+				//$NewBody = isset($summary)?$summary:"" + $Body;
 
 				// Import Post data into WordPress
 
@@ -330,7 +330,7 @@ class Jaws_Import {
 						'post_modified'		=> $updatetime,
 						'post_modified_gmt' => $updatetime,
 						'post_title'		=> $Title,
-						'post_content'		=> $NewBody,
+						'post_content'		=> $Body,
 						'post_excerpt'		=> $summary,
 						'post_status'		=> $post_status,
 						'post_name'			=> $fast_url,
