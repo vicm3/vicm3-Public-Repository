@@ -1,6 +1,8 @@
 Jaws to WP converter
 You need to upload jaws.php to your wordpress install, go to wp-admin/import/ (maybe import directory don't exist on your install if that's the case create it) then log to your WP, go to tools and import. You will see import from Jaws.
 
+IMPORTANT: Depending on your number of post the convertion script may run out of memory, originally tought that was a php.ini problem, after trying with weird configs, found http://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP so If you had more than 150 posts (including drafts) think on increase the memory for WP, normally it tries to increase to 32MB, but as pointed erarlier you may still run out of memory, I think depending on your system and resources a good try is define('WP_MEMORY_LIMIT', '64M'); on my test machine as had a lot of RAM, with a jaws blog that had more than 450 posts I go for 640MB directly, but I suppose 128MB will be fine for most blogs (64 more safe as hosting allocate between 16MB to 64MBb to apps) YMMV, in doubt consult your hosting limits about memory allocation.
+
 Version 0.5.1 march 26 2011
 Attempt to fix problem with summary + body.
 
