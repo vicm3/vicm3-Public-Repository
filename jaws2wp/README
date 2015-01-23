@@ -3,6 +3,8 @@ You need to upload jaws.php to your wordpress install, go to wp-admin/import/ (m
 
 IMPORTANT: Depending on your number of post the convertion script may run out of memory, originally tought that was a php.ini problem, after trying with weird configs, found http://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP so If you had more than 150 posts (including drafts) think on increase the memory for WP, normally it tries to increase to 32MB, but as pointed earlier you may still run out of memory, I think depending on your system and resources a good try is to define('WP_MEMORY_LIMIT', '64M'); on my test machine as had a lot of RAM, and with a jaws blog with more than 450 posts, I tried 640MB directly, but I suppose 128MB will be fine for most blogs (64 more safe as hosting allocate between 16MB to 64MBb to apps) YMMV, in doubt consult your hosting limits about memory allocation.
 
+Last know working version of WP is 3.x series, on 4.x the import framework and other hooks have changed, best advice I had migrate to a 3.x install on closed enviroment and from them upgrade. [1]
+
 Version 0.5.1 March 26, 2011
 Attempt to fix problem with summary + body.
 
@@ -11,15 +13,16 @@ We got correctly the post titles and summary from the 0.8.x branch, but when sum
 
 Version 0.3 August 31, 2010
 Tested with Jaws 0.7.2 & WP 2.2.3
-Added mods by Oviedo [1] and tried to convert between encondings, with mixed results.
-[1] http://oviedo.mx/adios-jaws-bienvenido-wordpress/
+Added mods by Oviedo [2] and tried to convert between encondings, with mixed results.
+[2] http://oviedo.mx/adios-jaws-bienvenido-wordpress/
 
 Version 0.2 September 11, 2007
 Modified to migrate Manuel Medina blog from Jaws 0.6.x to WP 2.2.x. With modifications of Omar, Manuel and myself not well documented.
 
 Version 0.1 April 23, 2007
-Omar Bazavilvazo first version to migrate from Jaws 0.5.x to WP 1.x, posted on his new WP blog [1] and code on WP codex site [2]
+Omar Bazavilvazo first version to migrate from Jaws 0.5.x to WP 1.x, posted on his new WP blog [2] and code on WP codex site [3]
 
-[1] http://omarbazavilvazo.com/2007/04/script-para-migrar-de-jaws-a-wordpress/
-[2] http://core.trac.wordpress.org/attachment/ticket/4184/jaws.php
+[1] https://github.com/vicm3/vicm3-Public-Repository/issues/1
+[2] http://omarbazavilvazo.com/2007/04/script-para-migrar-de-jaws-a-wordpress/
+[3] http://core.trac.wordpress.org/attachment/ticket/4184/jaws.php
 
